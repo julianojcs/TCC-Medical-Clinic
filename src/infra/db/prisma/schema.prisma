@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Doctor
+  Attendat
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String    @db.VarChar(256)
+  email     String    @unique @db.VarChar(128)
+  phones    String[]  @default([])
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  employee  Employee?
+  patient   Patient?
+
+  @@index([email])
+  @@map("users")
+}
+
+model Employee {
+  id                    String         @id @default(uuid())
+  isAdmin               Boolean        @default(false)
+  Role                  Role           @default(Attendat)
+  speciality            String         @db.VarChar(64)
+  shift                 Json           @default("{ \"timePeriod\": [\"morning\", \"afternoon\"], \"weekDays\": [\"monday\", \"tuesday\", \"wednesday\", \"thursday\", \"friday\" ] }")
+  userId                String?        @unique @db.VarChar(36)
+  prescriptions         Prescription[]
+  doctorAppointments    Appointment[]  @relation("doctorAppointments")
+  attendantAppointments Appointment[]  @relation("attendantAppointments")
+  doctorExamRequest     ExamRequest[]
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("employees")
+}
+
+model Patient {
+  id            String         @id @default(uuid())
+  healthPlan    String?        @db.VarChar(64)
+  userId        String?        @unique @db.VarChar(36)
+  prescriptions Prescription[]
+  appointments  Appointment[]
+  examRequest   ExamRequest[]
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("patients")
+}
+
+model ExamRequest {
+  id                 String    @id @default(uuid())
+  result             String?
+  doctorId           String    @db.VarChar(36)
+  patientId          String    @db.VarChar(36)
+  ExamId             String    @db.VarChar(36)
+  LabId              String    @db.VarChar(36)
+  receivedByPattient Boolean   @default(false)
+  requestDate        DateTime  @default(now())
+  resultDate         DateTime?
+
+  createdAt DateTime @default(now())
+
+  patient Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor  Employee @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  exam    Exam     @relation(fields: [ExamId], references: [id], onDelete: Cascade)
+  lab     Lab      @relation(fields: [LabId], references: [id], onDelete: Cascade)
+
+  @@map("examRequests")
+}
+
+model Lab {
+
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(128)
+  address   String?
+  email     String?  @db.VarChar(128)
+  phones    String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  examsRequest ExamRequest[]
+
+  @@map("labs")
+}
+
+model Exam {
+  id          String        @id @default(uuid())
+  name        String        @db.VarChar(128)
+  examRequest ExamRequest[]
+
+  @@map("exams")
+}
+
+model Appointment {
+  id          String    @id @default(uuid())
+  date        DateTime
+  doctorId    String    @db.VarChar(36)
+  patientId   String    @db.VarChar(36)
+  attendantId String    @db.VarChar(36)
+  createdAt   DateTime  @default(now())
+  canceledAt  DateTime?
+
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor    Employee @relation("doctorAppointments", fields: [doctorId], references: [id], onDelete: Cascade)
+  attendant Employee @relation("attendantAppointments", fields: [attendantId], references: [id], onDelete: Cascade)
+  @@map("appointments")
+}
+
+model Prescription {
+  id        String     @id @default(uuid())
+  patientId String     @db.VarChar(36)
+  doctorId  String     @db.VarChar(36)
+  medicines Medicine[]
+  createdAt DateTime   @default(now())
+
+  pattient Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor   Employee @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  @@map("prescriptions")
+}
+
+model Medicine {
+  id               String         @id @default(uuid())
+  genericName      String         @db.VarChar(64)
+  manufacturerName String         @db.VarChar(64)
+  manufacturerId   String         @db.VarChar(36)
+  prescriptions    Prescription[]
+  createdAt        DateTime       @default(now())
+
+  manufacturer Manufacturer @relation(fields: [manufacturerId], references: [id], onDelete: Cascade)
+
+  @@map("medicines")
+}
+
+model Manufacturer {
+  id        String     @id @default(uuid())
+  name      String     @db.VarChar(64)
+  address   String?
+  phone     String[]
+  email     String?    @db.VarChar(128)
+  website   String?    @db.VarChar(128)
+  medicines Medicine[]
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("manufacturers")
+}
