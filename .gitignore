@@ -264,5 +264,5 @@ src/database.sqlite
 
 testCode.ts
 start.txt
-src/application/*
+# src/application/*
 public/*
