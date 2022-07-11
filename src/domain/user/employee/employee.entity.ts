@@ -1,4 +1,4 @@
-import { User, UserProps } from "../user/user.entity";
+import { User, UserProps } from '../user.entity';
 
 export enum Role {
   DOCTOR = 'doctor',
@@ -6,11 +6,11 @@ export enum Role {
 }
 
 export const isValidRole = (value: Role): boolean => {
-  return Object.values(Role).includes(value)
-}
+  return Object.values(Role).includes(value);
+};
 
 export interface EmployeeProps extends UserProps {
-  isAdmin?: boolean
+  isAdmin?: boolean;
 }
 
 export class Employee extends User implements User {

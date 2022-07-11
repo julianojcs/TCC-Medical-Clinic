@@ -1,5 +1,5 @@
 import { DoctorInMemoryRepository } from "./doctor-in-memory.repository";
-import { Doctor } from "../../../../domain/doctor/doctor.entity";
+import { Doctor } from '../../../../domain/user/employee/doctor/doctor.entity';
 import { UserProps } from "../../../../domain/user/user.entity";
 
 let userProps: UserProps = {

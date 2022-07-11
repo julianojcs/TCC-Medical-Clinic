@@ -1,4 +1,4 @@
-import { User, UserProps } from '../user/user.entity';
+import { User, UserProps } from '../user.entity';
 
 export interface PatientProps extends UserProps {
   healthPlan?: string | null;

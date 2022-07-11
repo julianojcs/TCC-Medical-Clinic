@@ -1,5 +1,5 @@
-import { Patient } from "../../../../domain/patient/patient.entity";
-import { PatientRepositoryInterface } from "../../../../domain/patient/patient.repository";
+import { Patient } from '../../../../domain/user/patient/patient.entity';
+import { PatientRepositoryInterface } from '../../../../domain/user/patient/patient.repository';
 
 export class PatientInMemoryRepository implements PatientRepositoryInterface {
   items: Patient[] = [];

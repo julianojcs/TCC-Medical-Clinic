@@ -1,7 +1,6 @@
-import { Employee, EmployeeProps, Role } from "../employee/employee.entity";
+import { Employee, EmployeeProps, Role } from '../employee.entity';
 
-export interface AttendantProps extends EmployeeProps {
-}
+export interface AttendantProps extends EmployeeProps {}
 
 export class Attendant extends Employee implements AttendantProps {
   constructor(props: AttendantProps) {
