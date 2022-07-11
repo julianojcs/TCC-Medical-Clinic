@@ -1,5 +1,5 @@
 import { UserInMemoryRepository } from "./user-in-memory.repository";
-import { User, UserProps } from "../../../../domain/user/user.entity";
+import { User, UserProps } from '../../../../domain/user';
 
 let userProps: UserProps = {
   name: "John Doe",

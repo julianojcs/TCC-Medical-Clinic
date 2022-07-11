@@ -1,5 +1,5 @@
-import { Doctor } from "../../../../domain/doctor/doctor.entity";
-import { DoctorRepositoryInterface } from "../../../../domain/doctor/doctor.repository";
+import { Doctor } from '../../../../domain/user';
+import { DoctorRepositoryInterface } from '../../../../domain/user';
 
 export class DoctorInMemoryRepository implements DoctorRepositoryInterface {
   items: Doctor[] = [];
