@@ -13,19 +13,23 @@ export interface EmployeeProps extends UserProps {
   isAdmin?: boolean;
 }
 
-export class Employee extends User implements User {
-  private _role: Role;
-  private _isAdmin: boolean;
+export class Employee extends User implements EmployeeProps {
+  private _role: Role | null = null;
+  private _isAdmin: boolean = false;
 
   constructor(props: EmployeeProps) {
     super(props);
-    this._isAdmin = props.isAdmin || false;
+    this._isAdmin = props?.isAdmin || false;
   }
-  get role(): Role {
+  static create(props: EmployeeProps): Employee {
+    return new Employee(props);
+  }
+
+  get role(): Role | null {
     return this._role;
   }
-  protected set role(value: Role) {
-    this._role = value;
+  protected set role(value: Role | null) {
+    this._role = value || null;
   }
   get isAdmin(): boolean {
     return this._isAdmin || false;
@@ -34,10 +38,10 @@ export class Employee extends User implements User {
     this._isAdmin = value;
   }
   unsetAdmin() {
-    this._isAdmin = false;
+    this.isAdmin = false;
   }
   setAdmin() {
-    this._isAdmin = true;
+    this.isAdmin = true;
   }
   toJSON() {
     return {
