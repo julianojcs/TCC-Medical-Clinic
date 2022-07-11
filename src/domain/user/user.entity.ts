@@ -1,19 +1,6 @@
 import crypto from 'crypto';
+import { transformName, transformEmail, transformPhones } from '../../util';
 
-export const transformPhones = (value: string[] = []): string[] => {
-  if (value.length === 0) return [];
-  return value.map(value => value.replace(/[^0-9]/g, ''));
-}
-
-export const transformName = (value: string): string => {
-  return value?.split(" ").map((s) => {
-    return s.length > 2 ? s[0].toUpperCase() + s.slice(1).toLowerCase() : s.toLowerCase()
-  }).join(" ");
-}
-
-export const transformEmail = (value: string): string => {
-  return value?.toLowerCase();
-}
 
 export interface UserProps {
   id?: string

@@ -1,9 +1,4 @@
 import crypto from 'crypto';
-import {
-  transformEmail,
-  transformName,
-  transformPhones,
-} from '../../user.entity';
 import { Attendant, AttendantProps } from './attendant.entity';
 
 let attendantProps: AttendantProps;
