@@ -1,6 +1,6 @@
 import { Doctor } from "./doctor.entity";
 
-// Inversão de Dependência
+// Dependence Invertion
 export interface DoctorRepositoryInterface {
   insert(doctor: Doctor): Promise<void>;
   findAll(): Promise<Doctor[]>;

@@ -1,6 +1,6 @@
 import { User } from "./user.entity";
 
-// Inversão de Dependência
+// Dependence Invertion
 export interface UserRepositoryInterface {
   insert(user: User): Promise<void>;
   findAll(): Promise<User[]>;
