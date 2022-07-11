@@ -33,9 +33,6 @@ export class User implements UserProps {
   get id() {
     return this._id;
   }
-  private set id(value: string) {
-    this._id = value || crypto.randomUUID();
-  }
   get name() {
     return this._name;
   }
@@ -62,19 +59,19 @@ export class User implements UserProps {
   }
 
   updateName(value: string) {
-    this._name = transformName(value);
+    this.name = transformName(value);
   }
   updateEmail(value: string) {
-    this._email = transformEmail(value);
+    this.email = transformEmail(value);
   }
   updatePhones(value: string[]) {
-    this._phones = transformPhones(value);
+    this.phones = transformPhones(value);
   }
   deactivate() {
-    this._isActive = false;
+    this.isActive = false;
   }
   activate() {
-    this._isActive = true;
+    this.isActive = true;
   }
   toJSON() {
     return {
