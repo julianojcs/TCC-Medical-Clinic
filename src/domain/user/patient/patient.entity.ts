@@ -22,10 +22,10 @@ export class Patient extends User implements PatientProps {
     this._healthPlan = value;
   }
   deleteHealthPlan() {
-    this._healthPlan = null;
+    this.healthPlan = null;
   }
   updateHealthPlan(value: string) {
-    this._healthPlan = value;
+    this.healthPlan = value;
   }
   toJSON() {
     return {
